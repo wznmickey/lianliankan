@@ -17,9 +17,12 @@ int main()
     {
         int x1, y1, x2, y2;
         cin >> x1 >> y1 >> x2 >> y2;
-        if (map.connect(Location(x1, y1), Location(x2, y2)))
+        if (map.remove(Location(x1, y1), Location(x2, y2)))
         {
-            map.remove(Location(x1, y1), Location(x2, y2));
+        }
+        else
+        {
+            cout << "wrong"<<endl;
         }
         while (!map.check())
             map.shuffle();

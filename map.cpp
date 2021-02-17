@@ -203,7 +203,10 @@ void Map::draw()
     {
         for (int j = 1; j <= y; j++)
         {
-            cout << map[i][j].type;
+            if (map[i][j].type == 0)
+                cout << " ";
+            else
+                cout << map[i][j].type;
         }
         cout << endl;
     }
