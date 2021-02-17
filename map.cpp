@@ -78,8 +78,6 @@ bool Map::connect(Location a, Location b)
     Point B = map[b.x][b.y];
     if (A.type != B.type)
         return false;
-    //Map::cleanVisit();
-    //cout << Map::count(a, b);
     Map::cleanVisit();
     if (Map::count(a, b) <= 2)
     {
@@ -100,13 +98,11 @@ void Map::cleanVisit()
 }
 int Map::count(Location a, Location b)
 {
-    //cout << "firstcheck" << map[a.x][a.y].location.x << map[a.x][a.y].location.y << endl;
     queue<Point> Q;
     Q.push(map[a.x][a.y]);
     while (!Q.empty())
     {
         Point now = Q.front();
-        //cout << "check" << now.location.x << now.location.y << endl;
         Q.pop();
         if (now == map[b.x][b.y])
         {
@@ -121,7 +117,6 @@ int Map::count(Location a, Location b)
                     visit[i][now.location.y] = visit[now.location.x][now.location.y] + 1;
                     if (visit[i][now.location.y] >= 3)
                     {
-                        //cout << i << now.location.y << endl;
                         return 3;
                     }
                     Q.push(map[i][now.location.y]);
@@ -137,7 +132,6 @@ int Map::count(Location a, Location b)
                     visit[i][now.location.y] = visit[now.location.x][now.location.y] + 1;
                     if (visit[i][now.location.y] >= 3)
                     {
-                        //cout << i << now.location.y << endl;
                         return 3;
                     }
                     Q.push(map[i][now.location.y]);
@@ -153,7 +147,6 @@ int Map::count(Location a, Location b)
                     visit[now.location.x][i] = visit[now.location.x][now.location.y] + 1;
                     if (visit[now.location.x][i] >= 3)
                     {
-                        //cout << now.location.x << i << endl;
                         return 3;
                     }
 
@@ -170,7 +163,6 @@ int Map::count(Location a, Location b)
                     visit[now.location.x][i] = visit[now.location.x][now.location.y] + 1;
                     if (visit[now.location.x][i] >= 3)
                     {
-                        //cout << now.location.x << i << endl;
                         return 3;
                     }
                     Q.push(map[now.location.x][i]);
@@ -199,14 +191,21 @@ void Map::shuffle()
 void Map::draw()
 {
     cout << endl;
+    cout << "   ";
+    for (int j = 1; j <= y; j++)
+    {
+        cout << j << "_";
+    }
+    cout << endl;
     for (int i = 1; i <= x; i++)
     {
+        cout << i << "_ ";
         for (int j = 1; j <= y; j++)
         {
             if (map[i][j].type == 0)
-                cout << " ";
+                cout << "  ";
             else
-                cout << map[i][j].type;
+                cout << map[i][j].type << " ";
         }
         cout << endl;
     }

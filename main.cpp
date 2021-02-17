@@ -22,7 +22,7 @@ int main()
         }
         else
         {
-            cout << "wrong"<<endl;
+            cout << "wrong" << endl;
         }
         while (!map.check())
             map.shuffle();
