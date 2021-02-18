@@ -1,7 +1,7 @@
 #ifndef POINT_mickey_H
 #define POINT_mickey_H
 
-#include <bits/stdc++.h>
+#include <iostream>
 struct Location
 {
     int x, y;

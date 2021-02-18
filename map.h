@@ -1,8 +1,12 @@
 #ifndef MAP_mickey_H
 #define MAP_mickey_H
 
+#include "ctime"
+#include "fstream"
+#include "iostream"
 #include "point.h"
-#include <bits/stdc++.h>
+#include "queue"
+#include "vector"
 /*
 enum Direction
 {

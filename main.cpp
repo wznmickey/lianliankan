@@ -1,5 +1,5 @@
 #include "map.h"
-#include <bits/stdc++.h>
+#include <iostream>
 using namespace std;
 ofstream logfile;
 int      main( )
