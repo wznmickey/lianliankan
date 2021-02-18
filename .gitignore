@@ -32,3 +32,5 @@
 *.app
 
 *.json
+log.txt
+.clang-format
