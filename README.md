@@ -1,4 +1,5 @@
 [中文](#连连看)
+
 [English](#lianliankan)
 
 # 连连看
@@ -7,7 +8,7 @@
 
 1. `cmake CMakeLists.txt`
 
-2. `g++  map.cpp main.cpp point.cpp -o lianliankan`
+2. `g++ map.cpp main.cpp point.cpp -o lianliankan`
 
 ## 特色
 
@@ -15,7 +16,7 @@
 
 ## 计划内容
 
-- [ ] 胜负判断
+- [x] 胜负判断
 - [ ] 时间检测
 - [ ] 界面设计
 - [ ] 关卡选择
@@ -26,7 +27,7 @@
 
 1. `cmake CMakeLists.txt`
 
-2. `g++  map.cpp main.cpp point.cpp -o lianliankan`
+2. `g++ map.cpp main.cpp point.cpp -o lianliankan`
 
 ## Feature
 
@@ -34,7 +35,7 @@ Codes only use standard library, which can be used in different platforms.
 
 ## Todo List
 
-- [ ] Judge winning
+- [x] Judge winning
 - [ ] Time concerned
 - [ ] UI design
 - [ ] Level

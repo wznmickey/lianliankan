@@ -17,7 +17,14 @@ int      main( )
     {
         Location a, b;
         cin >> a >> b;
-        if ( map.remove( a, b ) ) { }
+        if ( map.remove( a, b ) )
+        {
+            if ( map.win( ) )
+            {
+                cout << "You win" << endl;
+                return 0;
+            }
+        }
         else
         {
             cout << "wrong" << endl;

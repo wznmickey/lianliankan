@@ -6,13 +6,14 @@ Map::Map( int x, int y, int type )
     logfile << "init map with" << x << "*" << y << "with" << type << "type" << endl;
     int n = 0;
     int m = 1;
+    rest  = x * y;
     {
         vector< Point > VPtemp;
         vector< int >   VItemp;
         for ( int j = 0; j <= y + 1; j++ )
         {
             VPtemp.push_back( Point( 0, j, 0 ) );
-            VItemp.push_back( 0 );
+            VItemp.push_back( -2 );
         }
         map.push_back( VPtemp );
         visit.push_back( VItemp );
@@ -22,17 +23,17 @@ Map::Map( int x, int y, int type )
         vector< Point > VPtemp;
         vector< int >   VItemp;
         VPtemp.push_back( Point( i, 0, 0 ) );
-        VItemp.push_back( 0 );
+        VItemp.push_back( -2 );
         for ( int j = 1; j <= y; j++ )
         {
             Point Ptemp = Point( i, j, m );
             VPtemp.push_back( Ptemp );
-            VItemp.push_back( 0 );
+            VItemp.push_back( -2 );
             n++;
             m = n % type + 1;
         }
         VPtemp.push_back( Point( i, y + 1, 0 ) );
-        VItemp.push_back( 0 );
+        VItemp.push_back( -2 );
         map.push_back( VPtemp );
         visit.push_back( VItemp );
     }
@@ -42,7 +43,7 @@ Map::Map( int x, int y, int type )
         for ( int j = 0; j <= y + 1; j++ )
         {
             VPtemp.push_back( Point( x + 1, j, 0 ) );
-            VItemp.push_back( 0 );
+            VItemp.push_back( -2 );
         }
         map.push_back( VPtemp );
         visit.push_back( VItemp );
@@ -85,7 +86,12 @@ bool Map::connect( Location a, Location b )
     logfile << A << B << endl;
     if ( A.type != B.type )
     {
-        logfile << "connect return false" << endl;
+        logfile << "connect return false because of different types" << endl;
+        return false;
+    }
+    if ( A.type == 0 )
+    {
+        logfile << "connect return false because type==0" << endl;
         return false;
     }
     Map::cleanVisit( );
@@ -96,7 +102,7 @@ bool Map::connect( Location a, Location b )
         logfile << "connect return true" << endl;
         return true;
     }
-    logfile << "connect return false" << endl;
+    logfile << "connect return false because count>3" << endl;
     return false;
 }
 void Map::cleanVisit( )
@@ -104,7 +110,7 @@ void Map::cleanVisit( )
     logfile << "goto cleanVisit" << endl;
     for ( int i = 0; i <= x + 1; i++ )
     {
-        for ( int j = 0; j <= y + 1; j++ ) { visit [ i ][ j ] = 0; }
+        for ( int j = 0; j <= y + 1; j++ ) { visit [ i ][ j ] = -2; }
     }
     logfile << "cleanVisit return" << endl;
     return;
@@ -130,7 +136,7 @@ int Map::count( Location a, Location b )
         {
             if ( map [ i ][ now.location.y ].type == 0 || map [ i ][ now.location.y ] == map [ b.x ][ b.y ] )
             {
-                if ( visit [ i ][ now.location.y ] == 0 )
+                if ( visit [ i ][ now.location.y ] == -2 )
                 {
                     visit [ i ][ now.location.y ] = visit [ now.location.x ][ now.location.y ] + 1;
                     logfile << i << " " << now.location.y << ":" << visit [ i ][ now.location.y ] << endl;
@@ -147,7 +153,7 @@ int Map::count( Location a, Location b )
         {
             if ( map [ i ][ now.location.y ].type == 0 || map [ i ][ now.location.y ] == map [ b.x ][ b.y ] )
             {
-                if ( visit [ i ][ now.location.y ] == 0 )
+                if ( visit [ i ][ now.location.y ] == -2 )
                 {
                     visit [ i ][ now.location.y ] = visit [ now.location.x ][ now.location.y ] + 1;
                     logfile << i << " " << now.location.y << ":" << visit [ i ][ now.location.y ] << endl;
@@ -164,7 +170,7 @@ int Map::count( Location a, Location b )
         {
             if ( map [ now.location.x ][ i ].type == 0 || map [ now.location.x ][ i ] == map [ b.x ][ b.y ] )
             {
-                if ( visit [ now.location.x ][ i ] == 0 )
+                if ( visit [ now.location.x ][ i ] == -2 )
                 {
                     visit [ now.location.x ][ i ] = visit [ now.location.x ][ now.location.y ] + 1;
                     logfile << now.location.x << " " << i << ":" << visit [ now.location.x ][ i ] << endl;
@@ -181,7 +187,7 @@ int Map::count( Location a, Location b )
         {
             if ( map [ now.location.x ][ i ].type == 0 || map [ now.location.x ][ i ] == map [ b.x ][ b.y ] )
             {
-                if ( visit [ now.location.x ][ i ] == 0 )
+                if ( visit [ now.location.x ][ i ] == -2 )
                 {
                     visit [ now.location.x ][ i ] = visit [ now.location.x ][ now.location.y ] + 1;
                     logfile << now.location.x << " " << i << ":" << visit [ now.location.x ][ i ] << endl;
@@ -201,7 +207,6 @@ void Map::shuffle( )
 {
     logfile << "goto shuffle" << endl;
     srand( time( NULL ) );
-
     for ( int i = 0; i < x * y; i++ )
     {
         int j = rand( ) % ( x * y - i ) + i;
@@ -212,6 +217,7 @@ void Map::shuffle( )
         map [ j % x + 1 ][ j / x + 1 ].location.y = j / x + 1;
         swap( visit [ i % x + 1 ][ i / x + 1 ], visit [ j % x + 1 ][ j / x + 1 ] );
     }
+    logfile << "shuffle return" << endl;
     return;
 }
 void Map::draw( )
@@ -247,9 +253,25 @@ bool Map::remove( Location a, Location b )
     {
         map [ a.x ][ a.y ].type = 0;
         map [ b.x ][ b.y ].type = 0;
-        logfile << "remove return true";
+        rest -= 2;
+        logfile << "remove return true" << endl;
         return true;
     }
-    logfile << "remove return false";
+    logfile << "remove return false" << endl;
     return false;
+}
+bool Map::win( )
+{
+    logfile << "goto win" << endl;
+    logfile << "now rest: " << rest << endl;
+    if ( rest == 0 )
+    {
+        logfile << "win return true" << endl;
+        return true;
+    }
+    else
+    {
+        logfile << "win return false" << endl;
+        return false;
+    }
 }

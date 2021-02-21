@@ -27,12 +27,14 @@ public:
     int  count( Location A, Location B );
     void cleanVisit( );
     void draw( );
+    bool win( );
     Map( int x, int y, int type );
 
 private:
     std::vector< std::vector< Point > > map;
     std::vector< std::vector< int > >   visit;
     int                                 x, y;
+    int                                 rest;
 };
 
 #endif
